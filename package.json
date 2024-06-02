@@ -1,0 +1,23 @@
+{
+  "name": "sekai-api",
+  "version": "1.0.0",
+  "description": "sekai rest api",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "sekai",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "fs": "0.0.1-security",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20"
+  }
+}

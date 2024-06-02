@@ -1,0 +1,158 @@
+-- Create tables
+CREATE TABLE category_page (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE banner (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_page_id INT NOT NULL,
+    image VARCHAR(255),
+    link VARCHAR(255),
+    FOREIGN KEY (category_page_id) REFERENCES category_page(id)
+);
+
+CREATE TABLE highlight_product (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    subtitle VARCHAR(255),
+    section_number INT
+);
+
+CREATE TABLE product_category (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE product_image (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image VARCHAR(255),
+    color VARCHAR(255),
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+CREATE TABLE marketplace (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    image VARCHAR(255)
+);
+
+CREATE TABLE product_marketplace (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    link VARCHAR(255),
+    marketplace_id INT NOT NULL,
+    product_id INT NOT NULL,
+    FOREIGN KEY (marketplace_id) REFERENCES marketplace(id),
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+CREATE TABLE product_yt_embed (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    link VARCHAR(255),
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+CREATE TABLE product (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    category_id INT NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES product_category(id)
+);
+
+CREATE TABLE news_image (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image VARCHAR(255),
+    news_id INT NOT NULL,
+    FOREIGN KEY (news_id) REFERENCES news(id)
+);
+
+CREATE TABLE news (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    content VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE about_us_yt_embed (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    link VARCHAR(255),
+    about_us_id INT NOT NULL,
+    FOREIGN KEY (about_us_id) REFERENCES about_us(id)
+);
+
+CREATE TABLE about_us (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(255),
+    vision VARCHAR(255),
+    mission VARCHAR(255)
+);
+
+CREATE TABLE event (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image VARCHAR(255),
+    link VARCHAR(255)
+);
+
+CREATE TABLE job (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    content VARCHAR(255)
+);
+
+-- Insert initial data
+INSERT INTO category_page (name) VALUES ('Home'), ('Products'), ('Services');
+
+INSERT INTO banner (category_page_id, image, link) VALUES 
+(1, 'home_banner.jpg', 'http://example.com/home'), 
+(2, 'products_banner.jpg', 'http://example.com/products');
+
+INSERT INTO highlight_product (title, subtitle, section_number) VALUES 
+('Best Seller', 'Top product of the month', 1), 
+('New Arrival', 'Latest products in store', 2);
+
+INSERT INTO product_category (name) VALUES ('Electronics'), ('Furniture'), ('Clothing');
+
+INSERT INTO product (name, description, category_id) VALUES 
+('Smartphone', 'Latest model with advanced features', 1), 
+('Sofa', 'Comfortable and stylish', 2);
+
+INSERT INTO product_image (image, color, product_id) VALUES 
+('smartphone.jpg', 'Black', 1), 
+('sofa.jpg', 'Blue', 2);
+
+INSERT INTO marketplace (name, image) VALUES 
+('Amazon', 'amazon_logo.jpg'), 
+('eBay', 'ebay_logo.jpg');
+
+INSERT INTO product_marketplace (link, marketplace_id, product_id) VALUES 
+('http://amazon.com/product1', 1, 1), 
+('http://ebay.com/product2', 2, 2);
+
+INSERT INTO product_yt_embed (link, product_id) VALUES 
+('http://youtube.com/embed/product1', 1), 
+('http://youtube.com/embed/product2', 2);
+
+INSERT INTO news (title, content) VALUES 
+('Company Launches New Product', 'We are excited to announce our latest product...'), 
+('Holiday Sale Announced', 'Enjoy great discounts during our holiday sale!');
+
+INSERT INTO news_image (image, news_id) VALUES 
+('news1.jpg', 1), 
+('news2.jpg', 2);
+
+INSERT INTO about_us (description, vision, mission) VALUES 
+('We are a leading company...', 'To be the best...', 'Our mission is to...');
+
+INSERT INTO about_us_yt_embed (link, about_us_id) VALUES 
+('http://youtube.com/embed/aboutus', 1);
+
+INSERT INTO event (image, link) VALUES 
+('event1.jpg', 'http://example.com/event1'), 
+('event2.jpg', 'http://example.com/event2');
+
+INSERT INTO job (title, content) VALUES 
+('Software Developer', 'Responsibilities include...'), 
+('Marketing Specialist', 'Responsibilities include...');
