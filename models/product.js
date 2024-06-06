@@ -1,6 +1,6 @@
 const dbPool = require("../config/database");
 
-const getAllProducts = () => {
+const getAllProducts = (limit, offset, categoryId, search) => {
   const sql = `
     SELECT
         p.id AS id,
@@ -41,9 +41,14 @@ const getAllProducts = () => {
         marketplace m ON pm.marketplace_id = m.id
     LEFT JOIN
         product_yt_embed pyt ON p.id = pyt.product_id
-    GROUP BY p.id, p.name, p.description, pc.id, pc.name;  
+    WHERE
+        (? IS NULL OR p.category_id = ?)
+        AND (? IS NULL OR p.name LIKE ?)
+    GROUP BY p.id, p.name, p.description, pc.id, pc.name
+    LIMIT ? OFFSET ?;  
   `;
-  return dbPool.query(sql);
+  const searchPattern = search ? `%${search}%` : null;
+  return dbPool.query(sql, [categoryId, categoryId, searchPattern, searchPattern, limit, offset]);
 };
 
 const getProductById = (id) => {

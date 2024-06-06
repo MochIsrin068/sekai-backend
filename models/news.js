@@ -10,14 +10,14 @@ const getNewsById = (id) => {
   return dbPool.execute(sql, [id]);
 };
 
-const createNews = (title, content, createdAt) => {
-  const sql = 'INSERT INTO news (title, content, created_at) VALUES (?, ?, ?)';
-  return dbPool.execute(sql, [title, content, createdAt]);
+const createNews = (title, content, image) => {
+  const sql = 'INSERT INTO news (title, content, image) VALUES (?, ?, ?)';
+  return dbPool.execute(sql, [title, content, image]);
 };
 
-const updateNews = (id, title, content, createdAt) => {
-  const sql = 'UPDATE news SET title = ?, content = ?, created_at = ? WHERE id = ?';
-  return dbPool.execute(sql, [title, content, createdAt, id]);
+const updateNews = (id, title, content, image) => {
+  const sql = 'UPDATE news SET title = ?, content = ?, image = ? WHERE id = ?';
+  return dbPool.execute(sql, [title, content, image, id]);
 };
 
 const deleteNews = (id) => {

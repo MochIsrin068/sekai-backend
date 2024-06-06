@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", highlightProductController.createHighlightProduct);
 
 // READ - GET
+router.get("/:id", highlightProductController.getHighlightProductDetail);
 router.get("/", highlightProductController.getAllHighlightProducts);
 
 // UPDATE - PATCH

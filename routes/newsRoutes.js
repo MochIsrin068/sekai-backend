@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", newsController.createNews);
 
 // READ - GET
+router.get("/:id", newsController.getDetailNews);
 router.get("/", newsController.getAllNews);
 
 // UPDATE - PATCH

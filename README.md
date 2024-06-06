@@ -10,4 +10,4 @@
 
 ## API's
 import collection on postmen, link:
-https://api.postman.com/collections/19161988-20564779-f0cd-4868-b6ba-a0764858b110?access_key=PMAT-01HZCB94ZK79PHM2CMARGPS2QZ
+https://api.postman.com/collections/5379248-4786645b-6357-435d-a3fa-22588615c59e?access_key=PMAT-01HZQ62V6T1Y8KR0762YCCMH3J

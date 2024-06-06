@@ -1,7 +1,14 @@
 const productModel = require("../models/product");
+const {deleteFiles} = require('../helper/deleteAsset')
+
 const getAllProducts = async (req, res) => {
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const offset = parseInt(req.query.offset, 10) || 0;
+  const categoryId = req.query.categoryId || null;
+  const search = req.query.search || null;
+
   try {
-    const [data] = await productModel.getAllProducts();
+    const [data] = await productModel.getAllProducts(limit, offset, categoryId, search);
     res.json({
       message: "GET all products success",
       data: data,
@@ -210,9 +217,15 @@ const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
   try {
+    const [productDetailData] = await productModel.getProductById(id)
+    const productImages = productDetailData?.[0]?.images?.map((item) => item?.image_url)
+
     const isDeleted = await productModel.deleteProduct(id);
 
     if (isDeleted) {
+      if(productImages && productImages?.length > 0){
+        await deleteFiles(productImages);
+      }
       res.json({
         message: "DELETE product success",
         data: null,
