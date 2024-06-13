@@ -15,6 +15,24 @@ const getAllCategoryPages = async (req, res) => {
   }
 };
 
+const getDetailCategoryPage = async (req, res) => {
+  const {id} = req.params
+
+  try {
+    const [data] = await categoryPageModel.getCategoryPageById(id);
+    res.json({
+      message: "GET detail category page success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+
 const createCategoryPage = async (req, res) => {
   const { name } = req.body;
   
@@ -79,4 +97,5 @@ module.exports = {
   createCategoryPage,
   updateCategoryPage,
   deleteCategoryPage,
+  getDetailCategoryPage
 };
