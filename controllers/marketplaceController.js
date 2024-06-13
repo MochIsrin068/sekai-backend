@@ -15,6 +15,23 @@ const getAllMarketplaces = async (req, res) => {
   }
 };
 
+const getDetailMarketplace = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const [data] = await marketplaceModel.getMarketplaceById(id);
+    res.json({
+      message: "GET detail marketplaces success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const createMarketplace = async (req, res) => {
   const { name, image } = req.body;
   
@@ -79,4 +96,5 @@ module.exports = {
   createMarketplace,
   updateMarketplace,
   deleteMarketplace,
+  getDetailMarketplace
 };

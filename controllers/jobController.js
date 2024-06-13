@@ -15,6 +15,23 @@ const getAllJobs = async (req, res) => {
   }
 };
 
+const getDetailJob = async (req, res) => {
+  const {id}  = req.params
+
+  try {
+    const [data] = await jobModel.getJobById(id);
+    res.json({
+      message: "GET detail job success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const createJob = async (req, res) => {
   const { title, content } = req.body;
   
@@ -79,4 +96,5 @@ module.exports = {
   createJob,
   updateJob,
   deleteJob,
+  getDetailJob
 };

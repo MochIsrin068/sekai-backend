@@ -15,6 +15,24 @@ const getAllBanners = async (req, res) => {
   }
 };
 
+const getDetailBanner = async (req, res) => {
+  const {id} = req.params
+
+  try {
+    const [data] = await bannerModel.getBannerById(id);
+    res.json({
+      message: "GET detail banner success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+
 const createBanner = async (req, res) => {
   const { categoryPageId, image, link } = req.body;
 
@@ -79,4 +97,5 @@ module.exports = {
   createBanner,
   updateBanner,
   deleteBanner,
+  getDetailBanner
 };

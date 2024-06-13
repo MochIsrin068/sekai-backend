@@ -15,6 +15,24 @@ const getAllEvents = async (req, res) => {
   }
 };
 
+const getEventDetail = async (req, res) => {
+  const {id} = req.params
+
+  try {
+    const [data] = await eventModel.getEventById(id);
+    res.json({
+      message: "GET detail event success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+
 const createEvent = async (req, res) => {
   const { image, link } = req.body;
   
@@ -79,4 +97,5 @@ module.exports = {
   createEvent,
   updateEvent,
   deleteEvent,
+  getEventDetail
 };

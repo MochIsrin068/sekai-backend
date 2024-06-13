@@ -1,8 +1,18 @@
+-- sekai.news definition
+
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `password` TEXT DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- sekai.about_us definition
 
 CREATE TABLE `about_us` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) DEFAULT NULL,
+  `description` LONGTEXT DEFAULT NULL,
   `vision` varchar(255) DEFAULT NULL,
   `mission` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -23,7 +33,7 @@ CREATE TABLE `category_page` (
 CREATE TABLE `event` (
   `id` int NOT NULL AUTO_INCREMENT,
   `image` varchar(255) DEFAULT NULL,
-  `link` varchar(255) DEFAULT NULL,
+  `link` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -33,7 +43,7 @@ CREATE TABLE `event` (
 CREATE TABLE `highlight_section` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) DEFAULT NULL,
-  `description` varchar(100) DEFAULT NULL,
+  `description` LONGTEXT DEFAULT NULL,
   `section_number` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -44,7 +54,7 @@ CREATE TABLE `highlight_section` (
 CREATE TABLE `job` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
+  `content` LONGTEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -64,7 +74,7 @@ CREATE TABLE `marketplace` (
 CREATE TABLE `news` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
+  `content` LONGTEXT DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `image` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -84,7 +94,7 @@ CREATE TABLE `product_category` (
 
 CREATE TABLE `about_us_yt_embed` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `link` varchar(255) DEFAULT NULL,
+  `link` MEDIUMTEXT DEFAULT NULL,
   `about_us_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `about_us_id` (`about_us_id`),
@@ -98,7 +108,7 @@ CREATE TABLE `banner` (
   `id` int NOT NULL AUTO_INCREMENT,
   `category_page_id` int NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `link` varchar(255) DEFAULT NULL,
+  `link` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_page_id` (`category_page_id`),
   CONSTRAINT `banner_ibfk_1` FOREIGN KEY (`category_page_id`) REFERENCES `category_page` (`id`)
@@ -123,7 +133,7 @@ CREATE TABLE `highlight_product` (
 CREATE TABLE `product` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` LONGTEXT DEFAULT NULL,
   `category_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
@@ -148,7 +158,7 @@ CREATE TABLE `product_image` (
 
 CREATE TABLE `product_marketplace` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `link` varchar(255) DEFAULT NULL,
+  `link` TEXT DEFAULT NULL,
   `marketplace_id` int NOT NULL,
   `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -161,7 +171,7 @@ CREATE TABLE `product_marketplace` (
 -- sekai.product_yt_embed definition
 CREATE TABLE `product_yt_embed` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `link` varchar(255) DEFAULT NULL,
+  `link` TEXT DEFAULT NULL,
   `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),

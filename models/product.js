@@ -151,11 +151,6 @@ const deleteProductImage = async (productId) => {
   return dbPool.execute(sql, [productId]);
 };
 
-const getProductImages = async (productId) => {
-  const sql = "SELECT * FROM product_image WHERE product_id = ?";
-  return dbPool.execute(sql, [productId]);
-};
-
 // Marketplace
 const createProductMarketplace = (placeholders, values) => {
   const sql = `INSERT INTO product_marketplace (link, marketplace_id, product_id) VALUES ${placeholders}`;
@@ -169,11 +164,6 @@ const updateProductMarketplace = async (placeholders, values) => {
 
 const deleteProductMarketplaces = async (productId) => {
   const sql = "DELETE FROM product_marketplace WHERE product_id = ?";
-  return dbPool.execute(sql, [productId]);
-};
-
-const getProductMarketplaces = async (productId) => {
-  const sql = "SELECT * FROM product_marketplace WHERE product_id = ?";
   return dbPool.execute(sql, [productId]);
 };
 
@@ -193,12 +183,6 @@ const deleteProductYtEmbed = async (productId) => {
   return dbPool.execute(sql, [productId]);
 };
 
-const getProductYtEmbeds = async (productId) => {
-  const sql = "SELECT * FROM product_yt_embed WHERE product_id = ?";
-  return dbPool.execute(sql, [productId]);
-};
-
-
 module.exports = {
   getAllProducts,
   getProductById,
@@ -215,7 +199,4 @@ module.exports = {
   deleteProductImage,
   deleteProductMarketplaces,
   deleteProductYtEmbed,
-  getProductImages,
-  getProductMarketplaces,
-  getProductYtEmbeds
 };

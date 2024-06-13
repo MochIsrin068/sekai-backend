@@ -15,10 +15,29 @@ const getAllAboutUs = async (req, res) => {
   }
 };
 
+const getDetailAboutUs = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const [data] = await aboutUsModel.getAboutUsById(id);
+    res.json({
+      message: "GET detail About Us success",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const createAboutUs = async (req, res) => {
-  const { title, content, createdAt } = req.body;
-  
-  if (!title || !content || !createdAt) {
+  const { description, vision, mission, ytEmbeds } = req.body;
+
+  const isYtEmbedsEmpty = !ytEmbeds || ytEmbeds?.length === 0;
+
+  if (!description || !vision || !mission || isYtEmbedsEmpty) {
     return res.status(400).json({
       message: "Invalid data sent",
       data: null,
@@ -26,10 +45,46 @@ const createAboutUs = async (req, res) => {
   }
 
   try {
-    await aboutUsModel.createAboutUs(title, content, createdAt);
+    const [aboutUsData] = await aboutUsModel.createAboutUs(description, vision, mission);
+
+    if (
+      !aboutUsData ||
+      aboutUsData.length === 0 ||
+      aboutUsData?.affectedRows === 0
+    ) {
+      return res.status(500).json({
+        message: "Failed Add About Us",
+        serverMessage: null,
+      });
+    }
+
+    let isYtEmbedCreated = false;
+
+    if (!isYtEmbedsEmpty) {
+      const placeholders = ytEmbeds.map(() => "(?, ?)").join(", ");
+      const values = ytEmbeds.reduce((acc, curr) => {
+        acc.push(curr, aboutUsData?.insertId);
+        return acc;
+      }, []);
+      const [dataYtEmbeds] = await aboutUsModel.createAboutUsYtEmbed(
+        placeholders,
+        values
+      );
+      if (dataYtEmbeds?.affectedRows > 0) {
+        isYtEmbedCreated = true;
+      }
+    }
+
+    if (!isYtEmbedCreated) {
+      return res.status(500).json({
+        message: "Failed Add About Us, Failed Add Youtube Embeds",
+        serverMessage: null,
+      });
+    }
+
     res.status(201).json({
       message: "CREATE new About Us success",
-      data: { title, content, createdAt },
+      data: { description, vision, mission, ytEmbeds },
     });
   } catch (error) {
     res.status(500).json({
@@ -41,14 +96,39 @@ const createAboutUs = async (req, res) => {
 
 const updateAboutUs = async (req, res) => {
   const { id } = req.params;
-  const { title, content, createdAt } = req.body;
+  const { description, vision, mission, ytEmbeds } = req.body;
+
+  const isAboutFieldEmpty = !description || !vision || !mission;
+
+  if (isAboutFieldEmpty) {
+    return res.status(400).json({
+      message: "Invalid data sent",
+      data: null,
+    });
+  }
 
   try {
-    await aboutUsModel.updateAboutUs(id, title, content, createdAt);
+    await aboutUsModel.updateAboutUs(id, description, vision, mission);
+
+    // Delete existing about us YT embeds
+    await aboutUsModel.deleteAboutUsYtEmbed(id);
+    // Insert new about us YT embeds
+    if (ytEmbeds && ytEmbeds.length > 0) {
+      const placeholders = ytEmbeds.map(() => "(?, ?)").join(", ");
+      const values = ytEmbeds.reduce((acc, curr) => {
+        acc.push(curr, id);
+        return acc;
+      }, []);
+      await aboutUsModel.updateAboutUsYtEmbed(placeholders, values);
+    }
+
+    const [aboutUsData] = await aboutUsModel.getAboutUsById(id);
+
     res.json({
       message: "UPDATE About Us success",
-      data: { id, title, content, createdAt },
+      data: aboutUsData?.[0] || null,
     });
+
   } catch (error) {
     res.status(500).json({
       message: "Server Error",
@@ -79,4 +159,5 @@ module.exports = {
   createAboutUs,
   updateAboutUs,
   deleteAboutUs,
+  getDetailAboutUs
 };
