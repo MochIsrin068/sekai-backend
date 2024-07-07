@@ -6,6 +6,9 @@ const cors = require("cors");
 const upload = require("./middleware/multer");
 const bodyParser = require('body-parser');
 
+// const ip = '103.234.254.54'
+const ip = '0.0.0.0'
+
 // Routers
 const categoryPageRoutes = require('./routes/categoryPageRoutes');
 const bannerRoutes = require('./routes/bannerRoutes');
@@ -59,6 +62,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, ip, () => {
   console.log(`Server berhasil di running di port ${PORT}`);
 });
