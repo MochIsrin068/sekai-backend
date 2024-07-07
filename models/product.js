@@ -73,7 +73,7 @@ const getProductById = (id) => {
         ) AS youtube_embeds,
         (
           SELECT JSON_ARRAYAGG(
-            JSON_OBJECT('marketplace_id', m.id , 'marketplace_name', m.name, 'marketplace_link', pm.link)
+            JSON_OBJECT('marketplace_id', m.id , 'marketplace_name', m.name, 'marketplace_link', pm.link, 'marketplace_image', m.image)
           )
           FROM product_marketplace pm JOIN marketplace m ON pm.marketplace_id = m.id
           WHERE pm.product_id = p.id
